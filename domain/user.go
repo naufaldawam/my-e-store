@@ -3,6 +3,8 @@ package domain
 import (
 	user "project3/group3/feature/users"
 	"time"
+
+	"github.com/labstack/echo/v4"
 )
 
 type User struct {
@@ -10,6 +12,7 @@ type User struct {
 	Name      string
 	Email     string
 	Password  string
+	Phone     string
 	CreatedAt time.Time
 	UpdatedAt time.Time
 }
@@ -30,4 +33,12 @@ type UserData interface {
 	GetSpecific(userID int) (User, error)
 	DeleteData(userID int) (row int, err error)
 	UpdateData(data map[string]interface{}, idUser int) (row int, err error)
+}
+
+type UserHandler interface {
+	InsertUser() echo.HandlerFunc
+	LoginAuth() echo.HandlerFunc
+	GetProfile() echo.HandlerFunc
+	DeleteById() echo.HandlerFunc
+	UpdateUser() echo.HandlerFunc
 }
