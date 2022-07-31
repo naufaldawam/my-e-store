@@ -16,15 +16,11 @@ type userHandler struct {
 	userUsecase domain.UserUseCase
 }
 
-func New(e *echo.Echo, us domain.UserUseCase) {
-	handler := &userHandler{
+func New(us domain.UserUseCase) domain.UserHandler {
+	return &userHandler{
 		userUsecase: us,
 	}
-	e.POST("/login", handler.LoginAuth())
-	e.POST("/register", handler.InsertUser())
-	e.GET("/users", handler.GetProfile(), _middleware.JWTMiddleware())
-	e.DELETE("/users", handler.DeleteById(), _middleware.JWTMiddleware())
-	e.PUT("/users", handler.UpdateUser(), _middleware.JWTMiddleware())
+
 }
 
 func (uh *userHandler) InsertUser() echo.HandlerFunc {

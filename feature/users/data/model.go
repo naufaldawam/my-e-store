@@ -20,6 +20,7 @@ func (u *User) ToModel() domain.User {
 		ID:        int(u.ID),
 		Name:      u.Name,
 		Email:     u.Email,
+		Phone:     u.Phone,
 		Password:  u.Password,
 		CreatedAt: u.CreatedAt,
 		UpdatedAt: u.UpdatedAt,
@@ -39,5 +40,6 @@ func FromModel(data domain.User) User {
 	res.Email = data.Email
 	res.Name = data.Name
 	res.Password = data.Password
+	res.Phone = data.Phone
 	return res
 }

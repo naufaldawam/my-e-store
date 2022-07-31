@@ -26,7 +26,7 @@ func New(ud domain.UserData, v *validator.Validate) domain.UserUseCase {
 }
 
 func (uc *userUseCase) AddUser(newUser domain.User) (row int, err error) {
-	if newUser.Name == "" || newUser.Email == "" || newUser.Password == "" {
+	if newUser.Name == "" || newUser.Email == "" || newUser.Password == "" || newUser.Phone == "" {
 		return -1, errors.New("please make sure all fields are filled in correctly")
 	}
 	row, err = uc.userData.Insert(newUser)

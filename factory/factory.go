@@ -14,5 +14,6 @@ func InitFactory(e *echo.Echo, db *gorm.DB) {
 	userData := ud.New(db)
 	validator := validator.New()
 	useCase := us.New(userData, validator)
-	userDelivery.New(e, useCase)
+	userHandler := userDelivery.New(useCase)
+	userDelivery.RouteUser(e, userHandler)
 }
