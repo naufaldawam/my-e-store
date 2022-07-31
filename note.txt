@@ -1,0 +1,16 @@
+user : beli product, read product, simpan product(carts), history order, history cancel order,
+	sebelum order cek ketersediaan stock, register otomatis user
+admin : create product, history order by product, update product, hapus product, register langsung ke db
+admin+user : update akun, delete akun, 
+
+done user, product, admin
+not done chart history
+
+============================================================
+STEP2:
+FIX FLOW PROGRAM
+1. FIX FIGMA (FE BE) X
+2. SWAGGER (BE) X
+3. ERD (BE) X
+4. TRELLO (BE) X
+CODING

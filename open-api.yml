@@ -1,0 +1,955 @@
+openapi: 3.0.0
+servers:
+  # Added by API Auto Mocking Plugin
+  - description: SwaggerHub API Auto Mocking
+    url: https://virtserver.swaggerhub.com/HERIWINONG01/my-estore/1.0.0
+info:
+  description: This is a simple API
+  version: "1.0.0"
+  title: Simple Inventory API
+  contact:
+    email: you@your-company.com
+  license:
+    name: Apache 2.0
+    url: 'http://www.apache.org/licenses/LICENSE-2.0.html'
+tags:
+ - name: Autentication
+ - name: Users
+ - name: Admin
+ - name: Product
+ - name: Cart
+ - name: Order
+
+paths:
+  #autentication
+  /login:
+    post:
+      tags:
+        - Autentication
+      parameters: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#"
+            example:
+              email: altera@gmail.com
+              password: qwerty123
+      responses:
+        "200":
+          description: Success Response
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/responseLoginSuccess"
+              examples:
+                responseData1:
+                  description: response success 1
+                  value:
+                    {
+                      code: 200,
+                      status: "success",
+                      message: "Login Success",
+                      data:
+                        {
+                          nama: "Sutiaji",
+                          token: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhdXRob3JpemVkIjp0cnVlLCJleHAiOjE2MzgzMjYxODAsInVzZXJJZCI6MSwidXNlcm5hbWUiOiJhZG1pbiJ9.AebFR-oQjUSOMez2ucDWkiMrS2eQIPmcYm5c71qZ_co",
+                        },
+                    }
+        "400":
+          description: Failed Response
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/failedResponse"
+              examples:
+                responseData1:
+                  description: response failed 1
+                  value:
+                    {
+                      code: 400,
+                      status: "failed",
+                      message: "email or password incorrect",
+                    }
+  /register:
+    post:
+      tags:
+        - Autentication
+      parameters: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#"
+            example:
+              name: sutiaji
+              email: altera@gmail.com
+              password: qwerty123
+      responses:
+        "200":
+          description: Success Response
+          content:
+            application/json:
+              schema:
+                $ref: "#"
+              examples:
+                response data:
+                  description: response success 1
+                  value:
+                    {
+                      code: 200,
+                      status: "success",
+                      message: "success operation create data",
+                    }
+        "400":
+          description: Failed Response
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/failedResponse"
+              examples:
+                responseData1:
+                  description: response failed 1
+                  value:
+                    {
+                      code: 400,
+                      status: "failed",
+                      message: "please make sure all fields are filled in correctly",
+                    }
+  #users
+  /users/{id} :  
+    get:
+      tags:
+        - Users
+      security:
+        - JWTAuth: []
+      description: Fitur untuk mmelihat detail profil
+      parameters:
+        - name: iduser
+          description: get data by id
+          in: query
+          schema:
+            type: integer
+            example: 1
+          required: true
+      responses:
+        "403":
+          description: forbiden
+        "404":
+          description: No data
+        "200":
+          description: Success Response
+          content:
+            application/json:
+              schema:
+                $ref: "#"
+              examples:
+                response data:
+                  description: response success 1
+                  value:
+                    {
+                      id: 1,
+                      name: "sutiaji",
+                      email: "sutiaji@gmail.com",
+                      created_at: 0001-01-01T00:00:00Z,
+                    }
+        "400":
+          description: Failed Response
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/failedResponse"
+              examples:
+                responseData1:
+                  description: response failed 1
+                  value: { code: 400, status: "failed", message: "bad request" }
+    put:
+      tags:
+        - Users
+      security:
+        - JWTAuth: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#"
+            example:
+              name: sutiaji
+              email: altera@gmail.com
+              password: qwerty123
+      parameters:
+        - name: iduser
+          in: query
+          schema:
+            type: integer
+            example: 1
+          required: true
+      responses:
+        "200":
+          description: Success Response
+          content:
+            application/json:
+              schema:
+                $ref: "#"
+              examples:
+                response data:
+                  value:
+                    code: 200
+                    status: "success"
+                    message: "Successful Operation"
+
+        "400":
+          description: Failed Response
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/failedResponse"
+              examples:
+                responseData1:
+                  description: response failed 1
+                  value: { code: 400, status: "failed", message: "Bad Request" }
+    delete:
+      tags:
+        - Users
+      security:
+        - JWTAuth: []
+      parameters:
+        - name: iduser
+          in: query
+          schema:
+            type: integer
+            example: 1
+          required: true
+      responses:
+        "200":
+          description: Success Response
+          content:
+            application/json:
+              schema:
+                $ref: "#"
+              examples:
+                response data:
+                  value:
+                    code: 200
+                    status: "success"
+                    message: "Successful Operation"
+
+        "400":
+          description: Failed Response
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/failedResponse"
+              examples:
+                responseData1:
+                  description: response failed 1
+                  value: { code: 400, status: "failed", message: "Bad Request" }
+  #product
+  /products:
+    post:
+      tags:
+        - Admin
+      parameters: []
+      security:
+        - JWTAuth: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#"
+            example:
+              name: adidas1
+              price: 500000
+              qty: 1
+              image: "https://www.priceza.co.id/article/sepatu-adidas/"
+              description: ini sepetu runing adidas1
+
+      responses:
+        "200":
+          description: Success Response
+          content:
+            application/json:
+              schema:
+                $ref: "#"
+              examples:
+                response data:
+                  description: response success 1
+                  value:
+                    {
+                      code: 200,
+                      status: "success",
+                      message: "success operation create data",
+                    }
+        "400":
+          description: Failed Response
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/failedResponse"
+              examples:
+                responseData1:
+                  description: response failed 1
+                  value: { code: 400, status: "failed", message: "Bad request" }
+    get:
+      tags:
+        - Product
+      parameters:
+        - in: query
+          name: offset
+          schema:
+            type: integer
+          description: The number of items to skip before starting to collect the result set
+        - in: query
+          name: limit
+          schema:
+            type: integer
+          description: The numbers of items to return
+      responses:
+        "200":
+          description: Success Response
+          content:
+            application/json:
+              schema:
+                $ref: "#"
+              examples:
+                response data:
+                  description: response success 1
+                  value:
+                    {
+                      id: 5,
+                      name: adidas1,
+                      price: 500000,
+                      qty: 1,
+                      description: ini sepetu runing adidas1,
+                    }
+        "400":
+          description: Failed Response
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/failedResponse"
+              examples:
+                responseData1:
+                  description: response failed 1
+                  value: { code: 400, status: "failed", message: "Bad request" }
+  /products/{id}:
+    get:
+      tags:
+        - Product
+      security:
+        - JWTAuth: []
+      parameters:
+        - name: idproduct
+          description: get data by id
+          in: path
+          schema:
+            type: integer
+            example: 1
+          required: true
+      responses:
+        "403":
+          description: forbiden
+        "404":
+          description: No data
+        "200":
+          description: Success Response
+          content:
+            application/json:
+              schema:
+                $ref: "#"
+              examples:
+                response data:
+                  description: response success 1
+                  value:
+                    {
+                      id: 1,
+                      name: adidas1,
+                      price: 500000,
+                      qty: 1,
+                      image: https://www.priceza.co.id/article/sepatu-adidas/,
+                      description: ini sepetu runing adidas1,
+                      User: { id: 6, name: alta },
+                    }
+        "400":
+          description: Failed Response
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/failedResponse"
+              examples:
+                responseData1:
+                  description: response failed 1
+                  value: { code: 400, status: "failed", message: "bad request" }
+    put:
+      tags:
+        - Admin
+      security:
+        - JWTAuth: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#"
+            example:
+              name: adidas1
+              price: 500000
+              qty: 1
+              image: https://www.priceza.co.id/article/sepatu-adidas/
+              description: ini sepetu runing adidas1
+      parameters:
+        - name: iduser
+          in: query
+          schema:
+            type: integer
+            example: 1
+          required: true
+      responses:
+        "200":
+          description: Success Response
+          content:
+            application/json:
+              schema:
+                $ref: "#"
+              examples:
+                response data:
+                  value:
+                    code: 200
+                    status: "success"
+                    message: "Successful Operation"
+
+        "400":
+          description: Failed Response
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/failedResponse"
+              examples:
+                responseData1:
+                  description: response failed 1
+                  value:
+                    {
+                      code: 400,
+                      status: "failed",
+                      message: "Bad Request, missing or malformed jwt",
+                    }
+    delete:
+      tags:
+        - Admin
+      security:
+        - JWTAuth: []
+      parameters:
+        - name: iduser
+          in: query
+          schema:
+            type: integer
+            example: 1
+          required: true
+      responses:
+        "200":
+          description: Success Response
+          content:
+            application/json:
+              schema:
+                $ref: "#"
+              examples:
+                response data:
+                  value:
+                    code: 200
+                    status: "success"
+                    message: "Successful Operation"
+
+        "400":
+          description: Failed Response
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/failedResponse"
+              examples:
+                responseData1:
+                  description: response failed 1
+                  value: { code: 400, status: "failed", message: "Bad Request" }
+  
+  /carts:
+    post:
+      tags:
+        - Cart
+      security:
+        - JWTAuth: []
+      parameters: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#"
+            example:
+              product_id: 5
+              qty: 1
+
+      responses:
+        "200":
+          description: Success Response
+          content:
+            application/json:
+              schema:
+                $ref: "#"
+              examples:
+                response data:
+                  description: response success 1
+                  value:
+                    {
+                      code: 200,
+                      status: "success",
+                      message: "success operation create data",
+                    }
+        "400":
+          description: Failed Response
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/failedResponse"
+              examples:
+                responseData1:
+                  description: response failed 1
+                  value: { code: 400, status: "failed", message: "Bad request" }
+    get:
+      tags:
+        - Cart
+      security:
+        - JWTAuth: []
+      responses:
+        "200":
+          description: Success Response
+          content:
+            application/json:
+              schema:
+                $ref: "#"
+              examples:
+                response data:
+                  description: response success 1
+                  value:
+                    {
+                      id: 12,
+                      qty: 2,
+                      total_price: 499000,
+                      user_id: 98,
+                      product:
+                        {
+                          id: 5,
+                          name: Converser,
+                          price: 49900,
+                          qty: 1,
+                          description: this is description,
+                        },
+                    }
+        "400":
+          description: Failed Response
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/failedResponse"
+              examples:
+                responseData1:
+                  description: response failed 1
+                  value: { code: 400, status: "failed", message: "Bad request" }
+
+  /carts/{idcart}:
+    put:
+      tags:
+        - Cart
+      security:
+        - JWTAuth: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#"
+            example:
+              qty: 1
+      parameters:
+        - name: idcart
+          in: path
+          schema:
+            type: integer
+            example: 1
+          required: true
+      responses:
+        "200":
+          description: Success Response
+          content:
+            application/json:
+              schema:
+                $ref: "#"
+              examples:
+                response data:
+                  value:
+                    code: 200
+                    status: "success"
+                    message: "Successful Operation"
+
+        "400":
+          description: Failed Response
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/failedResponse"
+              examples:
+                responseData1:
+                  description: response failed 1
+                  value:
+                    {
+                      code: 400,
+                      status: "failed",
+                      message: "Bad Request, missing or malformed jwt",
+                    }
+    delete:
+      tags:
+        - Cart
+      security:
+        - JWTAuth: []
+      parameters:
+        - name: iduser
+          in: path
+          schema:
+            type: integer
+            example: 1
+          required: true
+      responses:
+        "200":
+          description: Success Response
+          content:
+            application/json:
+              schema:
+                $ref: "#"
+              examples:
+                response data:
+                  value:
+                    code: 200
+                    status: "success"
+                    message: "Successful Operation"
+
+        "400":
+          description: Failed Response
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/failedResponse"
+              examples:
+                responseData1:
+                  description: response failed 1
+                  value:
+                    {
+                      code: 400,
+                      status: "failed",
+                      message: "Bad Request, missing or malformed jwt",
+                    }
+
+  /orders:
+    post:
+      tags:
+        - Order
+      security:
+        - JWTAuth: []
+      parameters: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#"
+            example:
+                {
+              cart_id: [
+                 2, 3
+               ],
+              address: {
+                street: "Jalan Veteran No.10",
+                city: "Malang",
+                province: "Jawa Timur",
+                postal_code: "10101"
+                  },
+              payment: {
+                payment_name: "Visa",
+                card_number: "1000-1000-1000-1000",
+                payment_code: "1000"
+                  }
+                } 
+
+      responses:
+        "200":
+          description: Success Response
+          content:
+            application/json:
+              schema:
+                $ref: "#"
+              examples:
+                response data:
+                  description: response success 1
+                  value:
+                    {
+                      code: 200,
+                      status: "success",
+                      message: "success operation create data",
+                    }
+        "400":
+          description: Failed Response
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/failedResponse"
+              examples:
+                responseData1:
+                  description: response failed 1
+                  value: { code: 400, status: "failed", message: "Bad request" }
+
+  /orders/me:
+    get:
+      tags:
+        - Order
+      security:
+        - JWTAuth: []
+      parameters: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#"
+            example:
+              id: 4
+              user_id: 6
+              total_price: 1298000
+              status: "Pending"
+              product: {
+                  street: "Jalan Veteran No.10",
+                  city: "Malang",
+                  province: "Jawa Timur",
+                  postal_code: "10101"
+                      }
+              payment_name: "Visa"
+              created_at: "2022-07-01T00:23:28.209Z"
+              
+      responses:
+        "200":
+          description: Success Response
+          content:
+            application/json:
+              schema:
+                $ref: "#"
+              examples:
+                response data:
+                  description: response success 1
+                  value:
+                    {
+                      code: 200,
+                      status: "success",
+                      message: "success operation create data",
+                    }
+        "400":
+          description: Failed Response
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/failedResponse"
+              examples:
+                responseData1:
+                  description: response failed 1
+                  value: { code: 400, status: "failed", message: "Bad request" }
+  /orders/{idorder}/confirm:
+    put:
+      tags:
+        - Order
+      security:
+        - JWTAuth: []
+      responses:
+        "200":
+          description: Success Response
+          content:
+            application/json:
+              schema:
+                $ref: "#"
+              examples:
+                response data:
+                  value:
+                    code: 200
+                    status: "success"
+                    message: "Successful Operation"
+
+        "400":
+          description: Failed Response
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/failedResponse"
+              examples:
+                responseData1:
+                  description: response failed 1
+                  value:
+                    {
+                      code: 400,
+                      status: "failed",
+                      message: "Bad Request, missing or malformed jwt",
+                    }
+  /orders/{idorder}/cancel:
+    put:
+      tags:
+        - Order
+      security:
+        - JWTAuth: []
+      responses:
+        "200":
+          description: Success Response
+          content:
+            application/json:
+              schema:
+                $ref: "#"
+              examples:
+                response data:
+                  value:
+                    code: 200
+                    status: "success"
+                    message: "Successful Operation"
+
+        "400":
+          description: Failed Response
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/failedResponse"
+              examples:
+                responseData1:
+                  description: response failed 1
+                  value:
+                    {
+                      code: 400,
+                      status: "failed",
+                      message: "Bad Request, missing or malformed jwt",
+                    }
+  /orders/history:
+    get:
+      tags:
+        - Order
+      security:
+        - JWTAuth: []
+      parameters: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#"
+            example:
+              id: 2,
+              user_id: 1
+              total_price: 799000
+              status: "Cancelled"
+              product: {
+                  street: "Jalan Veteran No.10",
+                  city: "Malang",
+                  province: "Jawa Timur",
+                  postal_code: "10101",
+                       }
+              payment_name: "Visa"
+              created_at: "2022-06-30T11:32:06.257Z"
+               
+      responses:
+        "200":
+          description: Success Response
+          content:
+            application/json:
+              schema:
+                $ref: "#"
+              examples:
+                response data:
+                  description: response success 1
+                  value:
+                    {
+                      code: 200,
+                      status: "success",
+                      message: "success operation create data",
+                    }
+        "400":
+          description: Failed Response
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/failedResponse"
+              examples:
+                responseData1:
+                  description: response failed 1
+                  value: { code: 400, status: "failed", message: "Bad request" }
+  /orderdetail/{idorder}:
+     get:
+      tags:
+        - Order
+      security:
+        - JWTAuth: []
+      parameters: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#"
+            example:
+              id: 5
+              order_id: 4
+              product_name: "Adidas"
+              price: 799000,
+              qty: 1
+      responses:
+        "200":
+          description: Success Response
+          content:
+            application/json:
+              schema:
+                $ref: "#"
+              examples:
+                response data:
+                  description: response success 1
+                  value:
+                    {
+                      code: 200,
+                      status: "success",
+                      message: "success operation create data",
+                    }
+        "400":
+          description: Failed Response
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/failedResponse"
+              examples:
+                responseData1:
+                  description: response failed 1
+                  value: { code: 400, status: "failed", message: "Bad request" }
+
+
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+  schemas:
+    requestLogin:
+      type: object
+      properties:
+        "email":
+          type: string
+          minLength: 1
+        "password":
+          type: string
+          minLength: 1
+    responseLoginSuccess:
+      type: object
+      properties:
+        {
+          "code": { type: number },
+          "message": { type: string },
+          "status": { type: string },
+          "data": { type: object },
+        }
+    failedResponse:
+      type: object
+      properties:
+        {
+          "code": { type: number },
+          "message": { type: string },
+          "status": { type: string },
+        }
