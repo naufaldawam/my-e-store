@@ -14,3 +14,14 @@ FIX FLOW PROGRAM
 3. ERD (BE) X
 4. TRELLO (BE) X
 CODING
+
+
+file ".env"
+
+export DBusername="root"
+export DBpassword="12345"
+export DBhost="localhost"
+export DBport=3306
+export DBname="project3"
+export SECRET="h1d3n"
+export SERVERPORT=8080
