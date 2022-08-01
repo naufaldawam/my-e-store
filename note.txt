@@ -25,3 +25,20 @@ export DBport=3306
 export DBname="project3"
 export SECRET="h1d3n"
 export SERVERPORT=8080
+
+
+=======================================================================
+pas checkout response snap midtrans
+snap (dulu) untuk payment getway
+core-API nanti dulu!
+======================================================================================================
+MAS IVAN
+DEPLOY & CI/CD
+swagger user admin
+
+HERI
+admin : create, update, delete, read product. &history order (menampilkan semua data order)
+
+
+MAS NAUFAL
+user : order cancel, order success, order history, add to chart, get all chart (by user login), get all product(all user)
