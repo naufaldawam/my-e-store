@@ -5,6 +5,7 @@ import (
 	"log"
 	"project3/group3/config"
 
+	orderData "project3/group3/feature/orders/data"
 	productData "project3/group3/feature/product/data"
 	userData "project3/group3/feature/users/data"
 
@@ -28,6 +29,6 @@ func InitDB(cfg *config.AppConfig) *gorm.DB {
 }
 
 func MigrateData(db *gorm.DB) {
-	db.AutoMigrate(userData.User{}, productData.Product{})
+	db.AutoMigrate(userData.User{}, productData.Product{}, orderData.Orders{})
 
 }
