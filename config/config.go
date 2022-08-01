@@ -33,7 +33,7 @@ func GetConfig() *AppConfig {
 }
 func initConfig() *AppConfig {
 	var defaultConfig AppConfig
-	err := godotenv.Load(".env")
+	err := godotenv.Load("setup.env")
 
 	if err != nil {
 		log.Fatal("Cannot read configuration")
