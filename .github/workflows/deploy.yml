@@ -19,8 +19,8 @@ jobs:
           script: |
             cd /home/ubuntu/MYE-STORE
             git pull origin main
-            # docker stop myeStoreContainer
-            # docker rm myeStoreContainer
-            # docker rmi myestore-api
+            docker stop myeStoreContainer
+            docker rm myeStoreContainer
+            docker rmi myestore-api
             docker build -t myestore-api:latest .
             docker run -d -p 80:80 --name myeStoreContainer myestore-api:latest
