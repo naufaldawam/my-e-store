@@ -66,6 +66,9 @@ func (uc *userUseCase) UpdateCase(input domain.User, idFromToken int) (row int, 
 	if input.Email != "" {
 		userReq["email"] = input.Email
 	}
+	if input.Phone != "" {
+		userReq["phone"] = input.Phone
+	}
 	if input.Password != "" {
 		passwordHashed, errorHash := _bcrypt.GenerateFromPassword([]byte(input.Password), 10)
 		if errorHash != nil {

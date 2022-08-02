@@ -18,18 +18,25 @@ func New(db *gorm.DB) domain.ProductData {
 	}
 }
 
-func (pd *productData) InsertProductDB(newProduct domain.Product) (row int, err error) {
-	product := FromModel(newProduct)
-	resultCreate := pd.db.Create(&product)
-
-	if resultCreate.Error != nil {
-		return 0, resultCreate.Error
+func (pd *productData) GetUser(idProduct int) (result domain.Product, err error) {
+	var tmp Product
+	res := pd.db.Preload("User").Where("id = ?", idProduct).First(&tmp)
+	if res.Error != nil {
+		return domain.Product{}, res.Error
 	}
-	if resultCreate.RowsAffected != 1 {
-		return 0, errors.New("failed to insert product, your product is already registered")
-	}
+	return tmp.ToDomain(), nil
+}
 
-	return int(resultCreate.RowsAffected), nil
+func (pd *productData) InsertProductDB(newProduct domain.Product) (result domain.Product, err error) {
+	product := FromDomain(newProduct)
+	res := pd.db.Create(&product)
+	if res.Error != nil {
+		return domain.Product{}, res.Error
+	}
+	if res.RowsAffected != 1 {
+		return domain.Product{}, errors.New("failed to insert product")
+	}
+	return product.ToDomain(), nil
 }
 
 func (pd *productData) DeleteProductDB(productID int) (row int, err error) {
@@ -43,4 +50,21 @@ func (pd *productData) DeleteProductDB(productID int) (row int, err error) {
 		return 0, errors.New("failed to delete product")
 	}
 	return int(res.RowsAffected), nil
+}
+
+func (pd *productData) SelectData(limit, offset int) (data []domain.Product, err error) {
+	dataProduct := []Product{}
+	res := pd.db.Preload("User").Limit(limit).Offset(offset).Find(&dataProduct)
+	if res.Error != nil {
+		return []domain.Product{}, nil
+	}
+	return ParseToArrProduct(dataProduct), nil
+}
+func (pd *productData) SelectDataById(id int) (data domain.Product, err error) {
+	tmp := Product{}
+	res := pd.db.Preload("User").Find(&tmp, id)
+	if res.Error != nil {
+		return domain.Product{}, res.Error
+	}
+	return tmp.ToDomain(), nil
 }
