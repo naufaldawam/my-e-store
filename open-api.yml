@@ -31,13 +31,13 @@ paths:
         content:
           application/json:
             schema:
-              $ref: "#"
+              $ref: "#/components/schemas/requestLogin"
             example:
-              email: altera@gmail.com
+              email: alterra@gmail.com
               password: qwerty123
       responses:
         "200":
-          description: Success Response
+          description: Success Response(Login Users)
           content:
             application/json:
               schema:
@@ -53,6 +53,28 @@ paths:
                       data:
                         {
                           nama: "Sutiaji",
+                          roles: "user",
+                          token: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhdXRob3JpemVkIjp0cnVlLCJleHAiOjE2MzgzMjYxODAsInVzZXJJZCI6MSwidXNlcm5hbWUiOiJhZG1pbiJ9.AebFR-oQjUSOMez2ucDWkiMrS2eQIPmcYm5c71qZ_co",
+                        },
+                    }
+        "201":
+          description: Success Response(Login Admins)
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/responseLoginSuccess"
+              examples:
+                responseData1:
+                  description: response success 1
+                  value:
+                    {
+                      code: 200,
+                      status: "success",
+                      message: "Login Success",
+                      data:
+                        {
+                          nama: "ivan",
+                          roles: "admin",
                           token: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhdXRob3JpemVkIjp0cnVlLCJleHAiOjE2MzgzMjYxODAsInVzZXJJZCI6MSwidXNlcm5hbWUiOiJhZG1pbiJ9.AebFR-oQjUSOMez2ucDWkiMrS2eQIPmcYm5c71qZ_co",
                         },
                     }
@@ -74,7 +96,7 @@ paths:
   /register:
     post:
       tags:
-        - Autentication
+        - Users
       parameters: []
       requestBody:
         content:
