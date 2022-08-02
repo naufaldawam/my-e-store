@@ -12,6 +12,13 @@ type Product struct {
 	ProductImage string
 	Stock        int
 	Price        int
+	UserID       int
+	User         User `gorm:"foreignKey:UserID;references:ID;constraint:OnDelete:CASCADE"`
+}
+
+type User struct {
+	ID   int
+	Role string
 }
 
 func (p *Product) ToModel() domain.Product {
