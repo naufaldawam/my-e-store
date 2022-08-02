@@ -32,3 +32,21 @@ func (pu *productUseCase) GetProductById(id int) (data domain.Product, err error
 	data, err = pu.productData.SelectDataById(id)
 	return data, err
 }
+func (pu *productUseCase) UpdateData(data domain.Product, idProduct, idFromToken int) (row int, err error) {
+	reqData := map[string]interface{}{}
+	if data.ProductName != "" {
+		reqData["product_name"] = data.ProductName
+	}
+	if data.ProductImage != "" {
+		reqData["product_image"] = data.ProductImage
+	}
+	if data.Stock != 0 {
+		reqData["stock"] = data.Stock
+	}
+	if data.Price != 0 {
+		reqData["price"] = data.Price
+	}
+
+	row, err = pu.productData.UpdateData(reqData, idProduct, idFromToken)
+	return row, err
+}

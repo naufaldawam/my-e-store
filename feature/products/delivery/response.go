@@ -20,7 +20,7 @@ type User struct {
 func FromModel(data domain.Product) Product {
 	return Product{
 		ID:           data.ID,
-		ProductName:  data.ProductImage,
+		ProductName:  data.ProductName,
 		ProductImage: data.ProductImage,
 		Stock:        data.Stock,
 		Price:        data.Price,
