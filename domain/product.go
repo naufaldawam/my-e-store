@@ -1,6 +1,10 @@
 package domain
 
-import "github.com/labstack/echo/v4"
+import (
+	"time"
+
+	"github.com/labstack/echo/v4"
+)
 
 type Product struct {
 	ID           int
@@ -8,18 +12,33 @@ type Product struct {
 	Stock        int
 	Price        int
 	ProductImage string
+	CreatedAt    time.Time
+	UpdatedAt    time.Time
+	UserID       int
+	User         UserAdmin
+}
+
+type UserAdmin struct {
+	ID   int
+	Name string
+	Role string
 }
 
 //logic
 type ProductUseCase interface {
-	InsertProduct(newProduct Product) (row int, err error)
+	InsertProduct(newProduct Product) (result Product, err error)
 	DeleteProduct(productID int) (row int, err error)
+	GetAllData(limit, offset int) (data []Product, err error)
+	GetProductById(id int) (data Product, err error)
 }
 
 //query
 type ProductData interface {
-	InsertProductDB(newProduct Product) (row int, err error)
+	GetUser(idProduct int) (result Product, err error) //buat ambil nama id
+	InsertProductDB(newProduct Product) (result Product, err error)
 	DeleteProductDB(productID int) (row int, err error)
+	SelectData(limit, offset int) (data []Product, err error)
+	SelectDataById(id int) (data Product, err error)
 }
 
 // handler

@@ -8,6 +8,6 @@ import (
 )
 
 func RouteProduct(e *echo.Echo, dp domain.ProductHandler) {
-	e.POST("/products", dp.InsertProductHandler())
+	e.POST("/products", dp.InsertProductHandler(), _middleware.JWTMiddleware())
 	e.DELETE("/products/:id", dp.DeleteProductHandler(), _middleware.JWTMiddleware())
 }
