@@ -35,6 +35,7 @@ type UserData interface {
 	UpdateData(data map[string]interface{}, idUser int) (row int, err error)
 }
 
+//handler
 type UserHandler interface {
 	InsertUser() echo.HandlerFunc
 	LoginAuth() echo.HandlerFunc
