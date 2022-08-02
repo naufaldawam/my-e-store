@@ -50,6 +50,10 @@ func (ph *productHandler) InsertProductHandler() echo.HandlerFunc {
 func (ph *productHandler) DeleteProductHandler() echo.HandlerFunc {
 	return func(c echo.Context) error {
 		idproduct := c.Param("id")
+		idFromToken, _ := _middleware.ExtractData(c)
+		if idFromToken != 1 && idFromToken != 2 {
+			return c.JSON(http.StatusInternalServerError, _helper.ResponseFailed("your account not admin"))
+		}
 		id, _ := strconv.Atoi(idproduct)
 		if id == 0 {
 			return c.JSON(http.StatusBadRequest, _helper.ResponseFailed("you dont have access"))
@@ -93,4 +97,38 @@ func (ph *productHandler) GetById() echo.HandlerFunc {
 		return c.JSON(http.StatusOK, _helper.ResponseOkWithData("success ", FromModel(res)))
 	}
 
+}
+
+func (ph *productHandler) Update() echo.HandlerFunc {
+	return func(c echo.Context) error {
+		id := c.Param("id")
+		idProduct, _ := strconv.Atoi(id)
+		idFromToken, _ := _middleware.ExtractData(c)
+		if idFromToken != 1 && idFromToken != 2 {
+			return c.JSON(http.StatusInternalServerError, _helper.ResponseFailed("your account not admin"))
+		}
+		product_name := c.FormValue("product_name")
+		product_image := c.FormValue("product_image")
+		stock := c.FormValue("stock")
+		price := c.FormValue("price")
+		stockint, _ := strconv.Atoi(stock)
+		priceint, _ := strconv.Atoi(price)
+
+		postReq := InsertProductFormat{
+			ProductName:  product_name,
+			ProductImage: product_image,
+			Stock:        stockint,
+			Price:        priceint,
+		}
+
+		dataPost := postReq.ToModel()
+		row, errUpd := ph.productUseCase.UpdateData(dataPost, idProduct, idFromToken)
+		if errUpd != nil {
+			return c.JSON(http.StatusInternalServerError, _helper.ResponseFailed("you dont have access"))
+		}
+		if row == 0 {
+			return c.JSON(http.StatusBadRequest, _helper.ResponseFailed("failed to update data"))
+		}
+		return c.JSON(http.StatusOK, _helper.ResponseOkNoData("success"))
+	}
 }

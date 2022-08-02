@@ -68,3 +68,25 @@ func (pd *productData) SelectDataById(id int) (data domain.Product, err error) {
 	}
 	return tmp.ToDomain(), nil
 }
+func (pd *productData) UpdateData(data map[string]interface{}, idProduct, idFromToken int) (row int, err error) {
+	dataProduct := Product{}
+	cekID := pd.db.First(&dataProduct, "id  = ?", idProduct)
+
+	if cekID.Error != nil {
+		return 0, cekID.Error
+	}
+	// if dataProduct.UserID != idFromToken {
+	// 	log.Println("user id ", dataProduct.UserID)
+	// 	log.Println("user token ", idFromToken)
+	// 	return -1, errors.New("you don`t have access")
+	// }
+	res := pd.db.Model(&Product{}).Where("id = ? ", idProduct).Updates(&data)
+	if res.Error != nil {
+		return 0, res.Error
+	}
+
+	if res.RowsAffected != 1 {
+		return 0, errors.New("failed update")
+	}
+	return int(res.RowsAffected), nil
+}
